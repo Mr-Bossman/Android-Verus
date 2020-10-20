@@ -8,23 +8,38 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import com.example.myapplication.Commander.Command;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 
 public class VerusMiner{
     public String errors = null;
     String homePath;
     Command cmd;
-    public VerusMiner(File Path,File dl){
+    private Context context;
+
+    public VerusMiner(File Path,Context current){
+        this.context = current;
+
         try {
-            File path = dl;
             homePath = Path.getAbsolutePath();
-            copy(new File(path, "ccminer"), new File(homePath , "/ccminer"));
-            copy(new File(path, "libcrypto.so.1.1"), new File(homePath , "/libcrypto.so.1.1"));
-            copy(new File(path, "libssl.so.1.1"), new File(homePath , "/libssl.so.1.1"));
-            copy(new File(path, "libz.so.1"), new File(homePath , "/libz.so.1"));
-            copy(new File(path, "libc++_shared.so"), new File(homePath ,"/libc++_shared.so"));
-        } catch (IOException e) {
+            copy(getResources().openRawResource(getResources().getIdentifier("ccminer","raw", getPackageName())), new File(homePath , "/ccminer"));
+            copy(getResources().openRawResource(getResources().getIdentifier("libcpp","raw", getPackageName())), new File(homePath , "/libcrypto.so.1.1"));
+            copy(getResources().openRawResource(getResources().getIdentifier("libcrypto","raw", getPackageName())), new File(homePath , "/libssl.so.1.1"));
+            copy(getResources().openRawResource(getResources().getIdentifier("libssl","raw", getPackageName())), new File(homePath , "/libz.so.1"));
+            copy(getResources().openRawResource(getResources().getIdentifier("libz","raw", getPackageName())), new File(homePath ,"/libc++_shared.so"));
+            Runtime.getRuntime().exec("/system/bin/chmod 777 " + homePath + "/ccminer");
+        } catch (Exception e) {
             errors = e.toString();
         }
+    }
+
+    private String getPackageName() {
+        return context.getPackageName();
+    }
+
+    private Resources getResources() {
+        return context.getResources();
     }
 
     void mine(String threads,String pass,String pool,String worker,boolean bench) {
@@ -52,16 +67,15 @@ public class VerusMiner{
     }
 
 
-    private static void copy(File src, File dst) throws IOException {
-        try (InputStream in = new FileInputStream(src)) {
-            try (OutputStream out = new FileOutputStream(dst)) {
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
+    private static void copy(InputStream in, File dst) throws IOException {
+        try (OutputStream out = new FileOutputStream(dst)) {
+            // Transfer bytes from in to out
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
             }
         }
+
     }
 }

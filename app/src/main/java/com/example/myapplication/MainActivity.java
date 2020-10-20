@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -13,7 +14,10 @@ import java.io.*;
 
 import com.example.myapplication.VerusMiner;
 
-
+/*
+how long will it run b4 i have to much data in the logall variable
+bench mark doesnt work idk y
+ */
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         File homePath = MainActivity.this.getFilesDir();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        miner = new VerusMiner(homePath,path);
+        miner = new VerusMiner(homePath,this);
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {
                 android.Manifest.permission.ACCESS_NETWORK_STATE,
@@ -55,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         pass.setText(settings.split("\n")[4]);
         address.setText(settings.split("\n")[5]);
 
+        TextView text = (TextView)findViewById(R.id.LOG);
 
+        text.setMovementMethod(new ScrollingMovementMethod());
 
 
     }
@@ -67,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             miner.stop();
             mining = false;
             text.setText("");
+            text.scrollTo(0, 0);
             LOGAll = "";
         }else {
             EditText threads = (EditText)findViewById(R.id.threads);
@@ -97,17 +104,20 @@ public class MainActivity extends AppCompatActivity {
                 LOG += miner.errors;
                 miner.stop();
                 text.setText(LOG);
+                text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
                 Log.e("test",LOG);
             } else if (!miner.error().isEmpty()) {
                 miner.stop();
                 LOG += miner.error();
                 text.setText(LOG);
+                text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
                 Log.e("test",LOG);
             } else {
                 LOG += miner.output();
                 LOGAll += LOG;
                 Log.e("test",LOG);
                 text.setText(LOGAll);
+                text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
                 handler.postDelayed(this, 200);
             }
         }
