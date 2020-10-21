@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 LOGAll = LOGAll.substring(LOGAll.indexOf('\n') + (LOGAll.split("\n").length - 100));
             }
             if (miner.errors != null) {
-                LOG += miner.errors;
+                LOG += miner.errors + miner.error() + miner.output();
                 miner.stop();
                 if(text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()){
                     text.setText(LOG);
@@ -113,9 +113,10 @@ public class MainActivity extends AppCompatActivity {
                     text.setText(LOG);
                 }
                 Log.e("test",LOG);
-            } else if (!miner.error().isEmpty()) {
+            }
+            if (!miner.error().isEmpty()) {
+                LOG += miner.error() + miner.output();
                 miner.stop();
-                LOG += miner.error();
                 if(text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()){
                     text.setText(LOG);
                     text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
