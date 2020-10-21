@@ -31,12 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         File homePath = MainActivity.this.getFilesDir();
-        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         miner = new VerusMiner(homePath,this);
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {
                 android.Manifest.permission.ACCESS_NETWORK_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.INTERNET,
         };
 
@@ -99,25 +97,43 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             TextView text = (TextView)findViewById(R.id.LOG);
             String LOG = "";
-
+            if(LOGAll.split("\n").length  > 100) {
+                LOGAll = LOGAll.substring(LOGAll.indexOf('\n') + (LOGAll.split("\n").length - 100));
+            }
             if (miner.errors != null) {
                 LOG += miner.errors;
                 miner.stop();
-                text.setText(LOG);
-                text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+                if(text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()){
+                    text.setText(LOG);
+                    text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+                } else {
+                    text.setText(LOG);git commit -a -m "fixed the inability to scroll added a maximumamount of lines and removed test code"
+
+
+                }
                 Log.e("test",LOG);
             } else if (!miner.error().isEmpty()) {
                 miner.stop();
                 LOG += miner.error();
-                text.setText(LOG);
-                text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+                if(text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()){
+                    text.setText(LOG);
+                    text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+                } else {
+                    text.setText(LOG);
+
+                }
                 Log.e("test",LOG);
             } else {
                 LOG += miner.output();
                 LOGAll += LOG;
                 Log.e("test",LOG);
-                text.setText(LOGAll);
-                text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+                if(text.getScrollY() >= (text.getLayout().getLineTop(text.getLineCount()) - text.getHeight())-2){
+                    text.setText(LOGAll);
+                    text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+                } else {
+                    text.setText(LOGAll);
+
+                }
                 handler.postDelayed(this, 200);
             }
         }
