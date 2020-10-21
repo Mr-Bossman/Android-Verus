@@ -43,12 +43,12 @@ public class VerusMiner{
         return context.getResources();
     }
 
-    void mine(String threads,String pass,String pool,String worker,boolean bench) {
+    void mine(String threads,String pass,String pool,String worker,String adress,boolean bench) {
         try {
             if(bench)
                 cmd = new Command( "./ccminer"  ,"-a" , "verus","--benchmark","-t",threads);
             else
-                cmd = new Command( "./ccminer" ,"-a" , "verus","-t",threads,"-p", pass,"-o" ,pool,"-u", worker);
+                cmd = new Command( "./ccminer" ,"-a" , "verus","-t",threads,"-p", pass,"-o" ,pool,"-u",adress + "." + worker);
 
             cmd.setWorkingDirectory(homePath);
             cmd.setEnviron("LD_LIBRARY_PATH",homePath);
