@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.verus.miner;
 
 import org.junit.Test;
 

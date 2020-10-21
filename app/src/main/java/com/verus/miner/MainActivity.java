@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.verus.miner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -12,7 +12,7 @@ import android.widget.*;
 import android.os.*;
 import java.io.*;
 
-import com.example.myapplication.VerusMiner;
+import com.verus.miner.VerusMiner;
 
 /*
 how long will it run b4 i have to much data in the logall variable

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.verus.miner;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import com.example.myapplication.Commander.Command;
+import com.verus.miner.Commander.Command;
 
 import android.content.Context;
 import android.content.res.Resources;
