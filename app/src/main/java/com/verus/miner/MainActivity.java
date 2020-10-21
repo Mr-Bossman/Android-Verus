@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void mine(View view){
         TextView text = (TextView)findViewById(R.id.LOG);
-
+        Button button = (Button)findViewById(R.id.button);
         if(mining){
             handler.removeCallbacks(textView);
             miner.stop();
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             text.setText("");
             text.scrollTo(0, 0);
             LOGAll = "";
+            button.setText("Start");
         }else {
             EditText threads = (EditText)findViewById(R.id.threads);
             EditText worker = (EditText)findViewById(R.id.worker);
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             miner.mine(threads.getText().toString(),pass.getText().toString(),pool.getText().toString(),worker.getText().toString(),bench.isChecked());
             handler.postDelayed(textView, 200);
             mining = true;
-
+            button.setText("Stop");
         }
 
     }

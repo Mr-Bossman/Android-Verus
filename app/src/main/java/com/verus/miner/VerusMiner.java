@@ -28,7 +28,7 @@ public class VerusMiner{
             copy(getResources().openRawResource(getResources().getIdentifier("libcrypto","raw", getPackageName())), new File(homePath , "/libssl.so.1.1"));
             copy(getResources().openRawResource(getResources().getIdentifier("libssl","raw", getPackageName())), new File(homePath , "/libz.so.1"));
             copy(getResources().openRawResource(getResources().getIdentifier("libz","raw", getPackageName())), new File(homePath ,"/libc++_shared.so"));
-            Runtime.getRuntime().exec("/system/bin/chmod 777 " + homePath + "/ccminer");
+
         } catch (Exception e) {
             errors = e.toString();
         }
@@ -44,6 +44,7 @@ public class VerusMiner{
 
     void mine(String threads,String pass,String pool,String worker,boolean bench) {
         try {
+            Runtime.getRuntime().exec("/system/bin/chmod 777 " + homePath + "/ccminer");
             if(bench)
                 cmd = new Command("./ccminer" ,"-a" , "verus","--benchmark","-t",threads);
             else
