@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private Runnable textView = new Runnable() {
         @Override
         public void run() {
+            Button button = (Button)findViewById(R.id.button);
             TextView text = (TextView)findViewById(R.id.LOG);
             String LOG = "";
             if(LOGAll.split("\n").length  > 100) {
@@ -112,7 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     text.setText(LOG);
                 }
+                mining = false;
+                button.setText("Start");
                 Log.e("test",LOG);
+                handler.removeCallbacks(textView);
+
             }
             if (!miner.error().isEmpty()) {
                 LOG += miner.error() + miner.output();
@@ -122,9 +127,11 @@ public class MainActivity extends AppCompatActivity {
                     text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
                 } else {
                     text.setText(LOG);
-
                 }
+                mining = false;
+                button.setText("Start");
                 Log.e("test",LOG);
+                handler.removeCallbacks(textView);
             } else {
                 LOG += miner.output();
                 LOGAll += LOG;
