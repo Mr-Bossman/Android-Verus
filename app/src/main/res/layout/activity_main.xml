@@ -5,101 +5,97 @@
     android:id="@+id/p"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_columnWeight="0.7"
+    android:layout_columnWeight="1"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/button"
-        android:layout_width="125dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="mine"
         android:text="Start"
-        app:layout_constraintBottom_toTopOf="@+id/LOG"
-        app:layout_constraintEnd_toStartOf="@+id/bench"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass" />
-
-    <EditText
-        android:id="@+id/pool"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="stratum+tcp://na.luckpool.net:3956"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/Buttons"
+        app:layout_constraintStart_toStartOf="@id/Buttons"
+        app:layout_constraintTop_toTopOf="@id/Buttons" />
 
     <EditText
         android:id="@+id/address"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="66dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:scaleX=".95"
+        android:scaleY=".95"
         android:text="RLSKjM9xBXTcC8bdmVCShc1f4sw4iceEMY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pool" />
+
+    <EditText
+        android:id="@+id/threads"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:scaleX=".95"
+        android:scaleY=".95"
+        android:text="6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/worker" />
+
+    <EditText
+        android:id="@+id/pool"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:scaleX=".95"
+        android:scaleY=".95"
+        android:text="stratum+tcp://na.luckpool.net:3956"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/worker"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="116dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:scaleX=".95"
+        android:scaleY=".95"
         android:text="Ja_02"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/threads"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="166dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/bench"
-        android:layout_width="125dp"
-        android:layout_height="80dp"
-        android:text="Benchmark"
-        app:layout_constraintBottom_toTopOf="@+id/LOG"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/pass" />
+        app:layout_constraintTop_toBottomOf="@id/address" />
 
     <EditText
         android:id="@+id/pass"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="216dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:scaleX=".95"
+        android:scaleY=".95"
         android:text="x"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/threads" />
+
+    <CheckBox
+        android:id="@+id/bench"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Benchmark"
+        app:layout_constraintBottom_toBottomOf="@id/Buttons"
+        app:layout_constraintStart_toEndOf="@id/button"
+        app:layout_constraintTop_toTopOf="@id/Buttons" />
 
     <TextView
         android:id="@+id/LOG"
-        android:layout_width="380dp"
-        android:layout_height="355dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:isScrollContainer="true"
         android:scrollIndicators="right"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
@@ -110,10 +106,50 @@
         android:textAlignment="viewStart"
         android:textSize="10sp"
         android:verticalScrollbarPosition="right"
+        app:layout_constraintBottom_toBottomOf="@id/Half2"
+        app:layout_constraintEnd_toEndOf="@id/Half2"
+        app:layout_constraintStart_toStartOf="@id/Half2"
+        app:layout_constraintTop_toTopOf="@id/Half2" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/Buttons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="bench,button"
+        app:layout_constraintBottom_toBottomOf="@id/Half1"
+        app:layout_constraintEnd_toEndOf="@id/Half1"
+        app:layout_constraintStart_toStartOf="@id/Half1"
+        app:layout_constraintTop_toBottomOf="@id/TextBoxes" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/TextBoxes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="pass,threads,pool,address,worker"
+        app:layout_constraintBottom_toBottomOf="@id/pass"
+        app:layout_constraintEnd_toEndOf="@id/Half1"
+        app:layout_constraintStart_toStartOf="@id/Half1"
+        app:layout_constraintTop_toTopOf="@id/Half1" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/Half1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="Buttons,TextBoxes,Half2"
+        app:layout_constraintBottom_toTopOf="@+id/Half2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/Half2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="LOG"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/Half1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

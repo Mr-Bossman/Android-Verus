@@ -53,8 +53,8 @@ public class VerusMiner{
             cmd.setWorkingDirectory(homePath);
             cmd.setEnviron("LD_LIBRARY_PATH",homePath);
             cmd.start();
-        } catch (Exception e) {
-            errors = e.toString();
+        }catch (Exception e) {
+            errors = e.toString() + "try restarting the app... or google removed this feture";
         }
     }
     void stop(){

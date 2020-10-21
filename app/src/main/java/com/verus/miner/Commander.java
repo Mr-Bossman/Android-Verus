@@ -117,7 +117,7 @@ public class Commander {
             errorHandler.output.setLength(0);
             return ret;        }
         public void end(){
-            if(process != null) process.destroyForcibly();
+            if(process != null) process.destroy();
         }
     }
 }
