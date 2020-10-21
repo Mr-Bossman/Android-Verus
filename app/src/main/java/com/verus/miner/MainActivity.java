@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             saveSettings(threads.getText().toString()  + '\n' + worker.getText().toString()  + '\n' + pool.getText().toString() + '\n' + pass.getText().toString() + '\n' + address.getText().toString(),this);
 
             CheckBox bench = (CheckBox)findViewById(R.id.bench);
-            miner.mine(threads.getText().toString(),pass.getText().toString(),pool.getText().toString(),worker.getText().toString(),address.toString(),bench.isChecked());
+            miner.mine(threads.getText().toString(),pass.getText().toString(),pool.getText().toString(),worker.getText().toString(),address.getText().toString(),bench.isChecked());
             handler.postDelayed(textView, 200);
             mining = true;
             button.setText("Stop");

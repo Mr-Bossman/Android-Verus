@@ -10,6 +10,7 @@ import com.verus.miner.Commander.Command;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 
 
 public class VerusMiner{
@@ -43,13 +44,12 @@ public class VerusMiner{
         return context.getResources();
     }
 
-    void mine(String threads,String pass,String pool,String worker,String adress,boolean bench) {
+    void mine(String threads,String pass,String pool,String worker,String address,boolean bench) {
         try {
             if(bench)
                 cmd = new Command( "./ccminer"  ,"-a" , "verus","--benchmark","-t",threads);
             else
-                cmd = new Command( "./ccminer" ,"-a" , "verus","-t",threads,"-p", pass,"-o" ,pool,"-u",adress + "." + worker);
-
+                cmd = new Command( "./ccminer" ,"-a" , "verus","-o" ,"stratum+tcp://" + pool,"-u",address + "." + worker,"-t",threads,"-p", pass);
             cmd.setWorkingDirectory(homePath);
             cmd.setEnviron("LD_LIBRARY_PATH",homePath);
             cmd.start();

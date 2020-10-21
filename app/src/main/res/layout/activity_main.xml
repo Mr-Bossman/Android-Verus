@@ -52,7 +52,7 @@
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
-        android:text="stratum+tcp://na.luckpool.net:3956"
+        android:text="na.luckpool.net:3956"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +65,7 @@
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
-        android:text="Ja_02"
+        android:text="ja_01"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address" />
