@@ -107,9 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     text.setText(LOG);
                     text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
                 } else {
-                    text.setText(LOG);git commit -a -m "fixed the inability to scroll added a maximumamount of lines and removed test code"
-
-
+                    text.setText(LOG);
                 }
                 Log.e("test",LOG);
             } else if (!miner.error().isEmpty()) {
