@@ -20,7 +20,6 @@ public class VerusMiner{
 
     public VerusMiner(File Path,Context current){
         this.context = current;
-
         try {
             homePath = Path.getAbsolutePath();
             copy(getResources().openRawResource(getResources().getIdentifier("ccminer","raw", getPackageName())), new File(homePath , "/ccminer"));
@@ -29,6 +28,8 @@ public class VerusMiner{
             copy(getResources().openRawResource(getResources().getIdentifier("libssl","raw", getPackageName())), new File(homePath , "/libz.so.1"));
             copy(getResources().openRawResource(getResources().getIdentifier("libz","raw", getPackageName())), new File(homePath ,"/libc++_shared.so"));
 
+            Runtime.getRuntime().exec("/system/bin/chmod 777 " + homePath + "/ccminer");
+            copy(getResources().openRawResource(getResources().getIdentifier("ccminer","raw", getPackageName())), new File(homePath , "/ccminer")); //a wtf android moment i have absolutly no clue why i have to do this
         } catch (Exception e) {
             errors = e.toString();
         }
@@ -44,11 +45,10 @@ public class VerusMiner{
 
     void mine(String threads,String pass,String pool,String worker,boolean bench) {
         try {
-            Runtime.getRuntime().exec("/system/bin/chmod 777 " + homePath + "/ccminer");
             if(bench)
-                cmd = new Command("./ccminer" ,"-a" , "verus","--benchmark","-t",threads);
+                cmd = new Command( "./ccminer"  ,"-a" , "verus","--benchmark","-t",threads);
             else
-                cmd = new Command("./ccminer" ,"-a" , "verus","-t",threads,"-p", pass,"-o" ,pool,"-u", worker);
+                cmd = new Command( "./ccminer" ,"-a" , "verus","-t",threads,"-p", pass,"-o" ,pool,"-u", worker);
 
             cmd.setWorkingDirectory(homePath);
             cmd.setEnviron("LD_LIBRARY_PATH",homePath);

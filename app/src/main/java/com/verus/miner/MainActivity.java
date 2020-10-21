@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         File homePath = MainActivity.this.getFilesDir();
+        Log.e("test",homePath.getAbsolutePath());
+
         miner = new VerusMiner(homePath,this);
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {
