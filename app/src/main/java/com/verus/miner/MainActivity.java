@@ -25,25 +25,8 @@ public class MainActivity extends AppCompatActivity {
     VerusMiner miner;
     Handler handler = new Handler();
     boolean mining = false;
-    String LOGAll = "";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        File homePath = MainActivity.this.getFilesDir();
-        Log.e("test",homePath.getAbsolutePath());
-
-        miner = new VerusMiner(homePath,this);
-        int PERMISSION_ALL = 1;
-        String[] PERMISSIONS = {
-                android.Manifest.permission.ACCESS_NETWORK_STATE,
-                android.Manifest.permission.INTERNET,
-        };
-
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-        }
+    String LOG = "";
+    void Settings(){
         EditText threads = (EditText) findViewById(R.id.threads);
         EditText worker = (EditText) findViewById(R.id.worker);
         EditText address = (EditText) findViewById(R.id.address);
@@ -61,6 +44,22 @@ public class MainActivity extends AppCompatActivity {
         pass.setText(settings.split("\n")[4]);
         address.setText(settings.split("\n")[5]);
 
+    }
+    void perms(){
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {
+                android.Manifest.permission.ACCESS_NETWORK_STATE,
+                android.Manifest.permission.INTERNET,
+        };
+
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
+    }
+    void getCpuInfo(){
+
+        Button button = (Button)findViewById(R.id.button);
+        EditText threads = (EditText) findViewById(R.id.threads);
         TextView text = (TextView)findViewById(R.id.LOG);
         try {
             Scanner scanner = new Scanner( new File("/proc/cpuinfo") );
@@ -107,7 +106,20 @@ public class MainActivity extends AppCompatActivity {
             text.setText(e.toString());
             Log.e("test",e.toString());
         }
-        text.setMovementMethod(new ScrollingMovementMethod());
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        File homePath = MainActivity.this.getFilesDir();
+        miner = new VerusMiner(homePath,this);
+
+        perms();
+        Settings();
+        getCpuInfo();
+
+        ((TextView)findViewById(R.id.LOG)).setMovementMethod(new ScrollingMovementMethod());
 
 
     }
@@ -115,12 +127,12 @@ public class MainActivity extends AppCompatActivity {
         TextView text = (TextView)findViewById(R.id.LOG);
         Button button = (Button)findViewById(R.id.button);
         if(mining){
-            handler.removeCallbacks(textView);
+            handler.removeCallbacks(mainLoop);
             miner.stop();
             mining = false;
             text.setText("");
             text.scrollTo(0, 0);
-            LOGAll = "";
+            LOG = "";
             button.setText("Start");
         }else {
             EditText threads = (EditText)findViewById(R.id.threads);
@@ -133,85 +145,66 @@ public class MainActivity extends AppCompatActivity {
             saveSettings(threads.getText().toString()  + '\n' + worker.getText().toString()  + '\n' + pool.getText().toString() + '\n' + pass.getText().toString() + '\n' + address.getText().toString(),this);
             CheckBox bench = (CheckBox)findViewById(R.id.bench);
             miner.mine(threads.getText().toString(),pass.getText().toString(),pool.getText().toString(),worker.getText().toString(),address.getText().toString(),bench.isChecked());
-            handler.postDelayed(textView, 200);
+            handler.postDelayed(mainLoop, 200);
             mining = true;
             button.setText("Stop");
         }
 
     }
+    void genricError(){
+        Button button = (Button) findViewById(R.id.button);
+        TextView text = (TextView) findViewById(R.id.LOG);
+        miner.stop();
+        if (text.getScrollY() >= (text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()) - 2) {
+            text.setText(LOG);
+            text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+        } else {
+            text.setText(LOG);
+        }        mining = false;
+        button.setText("Start");
+        Log.e("test", LOG);
+        handler.removeCallbacks(mainLoop);
+    }
     // Define the code block to be executed
-    private Runnable textView = new Runnable() {
+    private Runnable mainLoop = new Runnable() {
         @Override
         public void run() {
             Button button = (Button) findViewById(R.id.button);
             TextView text = (TextView) findViewById(R.id.LOG);
-            String LOG = "";
-            if (LOGAll.split("\n").length > 100) {
-                LOGAll = LOGAll.substring(LOGAll.indexOf('\n') + (LOGAll.split("\n").length - 100));
+
+            if (LOG.split("\n").length > 100) {
+                LOG = LOG.substring(LOG.indexOf('\n') + (LOG.split("\n").length - 100));
             }
             try{
                 if(miner.cmd.process.exitValue() != 0) {
-                    LOG += String.valueOf(miner.cmd.process.exitValue());
-                    miner.stop();
-                    text.setText("process exited: "+ LOG);
-                    mining = false;
-                    button.setText("Start");
-                    Log.e("test", "process exited: "+ LOG);
-                    handler.removeCallbacks(textView);
+                    LOG += "process exited: " + String.valueOf(miner.cmd.process.exitValue());
+                    genricError();
                 } else {
                     LOG += String.valueOf(miner.cmd.process.exitValue());
-                    miner.stop();
-                    text.setText("process exited: "+ LOG);
-                    mining = false;
-                    button.setText("Start");
-                    Log.e("test", "process exited: "+ LOG);
-                    handler.removeCallbacks(textView);
+                    genricError();
                 }
             }catch (IllegalThreadStateException e) {
+                //thread hasnt stoped this is cursed but .isAlive doesnt work
                 if (miner.errors != null) {
                     LOG += miner.errors + miner.error() + miner.output();
-                    miner.stop();
-                    text.setText(LOG);
-                    mining = false;
-                    button.setText("Start");
-                    Log.e("test", LOG);
-                    handler.removeCallbacks(textView);
-
-                }
-                if (!miner.error().isEmpty()) {
+                    genricError();
+                } else if (!miner.error().isEmpty()) {
                     LOG += miner.error() + miner.output();
-                    miner.stop();
-                    text.setText(LOG);
-                    mining = false;
-                    button.setText("Start");
-                    Log.e("test", LOG);
-                    handler.removeCallbacks(textView);
+                    genricError();
                 } else {
                     LOG += miner.output();
-                    LOGAll += LOG;
                     Log.e("test", LOG);
                     if (text.getScrollY() >= (text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()) - 2) {
-                        text.setText(LOGAll);
+                        text.setText(LOG);
                         text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
                     } else {
-                        text.setText(LOGAll);
-
+                        text.setText(LOG);
                     }
                     handler.postDelayed(this, 200);
                 }
             } catch (Exception e) {
                 LOG += e.toString();
-                miner.stop();
-                if (text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()) {
-                    text.setText(LOG);
-                    text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
-                } else {
-                    text.setText(LOG);
-                }
-                mining = false;
-                button.setText("Start");
-                Log.e("test", LOG);
-                handler.removeCallbacks(textView);
+                genricError();
             }
         }
     };
