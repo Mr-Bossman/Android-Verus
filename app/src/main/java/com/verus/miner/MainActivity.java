@@ -143,16 +143,66 @@ public class MainActivity extends AppCompatActivity {
     private Runnable textView = new Runnable() {
         @Override
         public void run() {
-            Button button = (Button)findViewById(R.id.button);
-            TextView text = (TextView)findViewById(R.id.LOG);
+            Button button = (Button) findViewById(R.id.button);
+            TextView text = (TextView) findViewById(R.id.LOG);
             String LOG = "";
-            if(LOGAll.split("\n").length  > 100) {
+            if (LOGAll.split("\n").length > 100) {
                 LOGAll = LOGAll.substring(LOGAll.indexOf('\n') + (LOGAll.split("\n").length - 100));
             }
-            if (miner.errors != null) {
-                LOG += miner.errors + miner.error() + miner.output();
+            try{
+                if(miner.cmd.process.exitValue() != 0) {
+                    LOG += String.valueOf(miner.cmd.process.exitValue());
+                    miner.stop();
+                    text.setText("process exited: "+ LOG);
+                    mining = false;
+                    button.setText("Start");
+                    Log.e("test", "process exited: "+ LOG);
+                    handler.removeCallbacks(textView);
+                } else {
+                    LOG += String.valueOf(miner.cmd.process.exitValue());
+                    miner.stop();
+                    text.setText("process exited: "+ LOG);
+                    mining = false;
+                    button.setText("Start");
+                    Log.e("test", "process exited: "+ LOG);
+                    handler.removeCallbacks(textView);
+                }
+            }catch (IllegalThreadStateException e) {
+                if (miner.errors != null) {
+                    LOG += miner.errors + miner.error() + miner.output();
+                    miner.stop();
+                    text.setText(LOG);
+                    mining = false;
+                    button.setText("Start");
+                    Log.e("test", LOG);
+                    handler.removeCallbacks(textView);
+
+                }
+                if (!miner.error().isEmpty()) {
+                    LOG += miner.error() + miner.output();
+                    miner.stop();
+                    text.setText(LOG);
+                    mining = false;
+                    button.setText("Start");
+                    Log.e("test", LOG);
+                    handler.removeCallbacks(textView);
+                } else {
+                    LOG += miner.output();
+                    LOGAll += LOG;
+                    Log.e("test", LOG);
+                    if (text.getScrollY() >= (text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()) - 2) {
+                        text.setText(LOGAll);
+                        text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
+                    } else {
+                        text.setText(LOGAll);
+
+                    }
+                    handler.postDelayed(this, 200);
+                }
+            } catch (Exception e) {
+                LOG += e.toString();
                 miner.stop();
-                if(text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()){
+                if (text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()) {
                     text.setText(LOG);
                     text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
                 } else {
@@ -160,35 +210,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mining = false;
                 button.setText("Start");
-                Log.e("test",LOG);
+                Log.e("test", LOG);
                 handler.removeCallbacks(textView);
-
-            }
-            if (!miner.error().isEmpty()) {
-                LOG += miner.error() + miner.output();
-                miner.stop();
-                if(text.getScrollY() == text.getLayout().getLineTop(text.getLineCount()) - text.getHeight()){
-                    text.setText(LOG);
-                    text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
-                } else {
-                    text.setText(LOG);
-                }
-                mining = false;
-                button.setText("Start");
-                Log.e("test",LOG);
-                handler.removeCallbacks(textView);
-            } else {
-                LOG += miner.output();
-                LOGAll += LOG;
-                Log.e("test",LOG);
-                if(text.getScrollY() >= (text.getLayout().getLineTop(text.getLineCount()) - text.getHeight())-2){
-                    text.setText(LOGAll);
-                    text.scrollTo(0, text.getLayout().getLineTop(text.getLineCount()) - text.getHeight());
-                } else {
-                    text.setText(LOGAll);
-
-                }
-                handler.postDelayed(this, 200);
             }
         }
     };
