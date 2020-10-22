@@ -11,63 +11,72 @@
     <EditText
         android:id="@+id/address"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="\"
+        android:layout_height="0dp"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
         android:text="RLSKjM9xBXTcC8bdmVCShc1f4sw4iceEMY"
+        app:layout_constraintBottom_toTopOf="@+id/threads"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pool" />
-
-    <EditText
-        android:id="@+id/threads"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:scaleX=".95"
-        android:scaleY=".95"
-        android:text="6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/worker" />
-
-    <EditText
-        android:id="@+id/pool"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:scaleX=".95"
-        android:scaleY=".95"
-        android:text="na.luckpool.net:3956"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/threads"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:inputType="textPersonName"
+        android:scaleX=".95"
+        android:scaleY=".95"
+        android:text="6"
+        app:layout_constraintBottom_toTopOf="@+id/pool"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
+
+    <EditText
+        android:id="@+id/pool"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:inputType="textPersonName"
+        android:scaleX=".95"
+        android:scaleY=".95"
+        android:text="na.luckpool.net:3956"
+        app:layout_constraintBottom_toTopOf="@+id/worker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/threads" />
+
+    <EditText
         android:id="@+id/worker"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
         android:text="ja_01"
+        app:layout_constraintBottom_toTopOf="@+id/pass"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address" />
+        app:layout_constraintTop_toBottomOf="@+id/pool" />
 
     <EditText
         android:id="@+id/pass"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
         android:text="x"
+        app:layout_constraintBottom_toTopOf="@+id/bench"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/threads" />
+        app:layout_constraintTop_toBottomOf="@+id/worker" />
 
     <Button
         android:id="@+id/button"
