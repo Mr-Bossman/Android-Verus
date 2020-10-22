@@ -1,4 +1,4 @@
-need to fix layout so that it scales correctly 
+fix layout so it works in landscape
 
 fix problem with weird scrolling 
 

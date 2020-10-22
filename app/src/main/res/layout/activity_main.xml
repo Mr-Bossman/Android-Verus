@@ -8,21 +8,11 @@
     android:layout_columnWeight="1"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="mine"
-        android:text="Start"
-        app:layout_constraintBottom_toBottomOf="@id/Buttons"
-        app:layout_constraintStart_toStartOf="@id/Buttons"
-        app:layout_constraintTop_toTopOf="@id/Buttons" />
-
     <EditText
         android:id="@+id/address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:ems="\"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
@@ -35,7 +25,6 @@
         android:id="@+id/threads"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
@@ -48,7 +37,6 @@
         android:id="@+id/pool"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
@@ -61,7 +49,6 @@
         android:id="@+id/worker"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
@@ -74,7 +61,6 @@
         android:id="@+id/pass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPersonName"
         android:scaleX=".95"
         android:scaleY=".95"
@@ -83,14 +69,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/threads" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="mine"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="@id/Buttons"
+        app:layout_constraintEnd_toStartOf="@+id/bench"
+        app:layout_constraintHeight_percent=".12"
+        app:layout_constraintStart_toStartOf="@id/Buttons"
+        app:layout_constraintTop_toTopOf="@id/Buttons"
+        app:layout_constraintWidth_percent=".35" />
+
     <CheckBox
         android:id="@+id/bench"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:text="Benchmark"
         app:layout_constraintBottom_toBottomOf="@id/Buttons"
-        app:layout_constraintStart_toEndOf="@id/button"
+        app:layout_constraintEnd_toEndOf="@id/Buttons"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button"
         app:layout_constraintTop_toTopOf="@id/Buttons" />
+
 
     <TextView
         android:id="@+id/LOG"
