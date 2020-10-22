@@ -11,13 +11,14 @@ import android.view.View;
 import android.widget.*;
 import android.os.*;
 import java.io.*;
+import java.lang.Process;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Scanner;
 
 import com.verus.miner.VerusMiner;
 
-/*
-how long will it run b4 i have to much data in the logall variable
-bench mark doesnt work idk y
- */
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         EditText address = (EditText) findViewById(R.id.address);
         EditText pool = (EditText) findViewById(R.id.pool);
         EditText pass = (EditText) findViewById(R.id.pass);
+        Button button = (Button)findViewById(R.id.button);
 
         if(readSettings(this) == null)
             saveSettings(threads.getText().toString() + '\n' + worker.getText().toString() + '\n' + pool.getText().toString() + '\n' + pass.getText().toString() + '\n' + address.getText().toString(), this);
@@ -60,7 +62,51 @@ public class MainActivity extends AppCompatActivity {
         address.setText(settings.split("\n")[5]);
 
         TextView text = (TextView)findViewById(R.id.LOG);
+        try {
+            Scanner scanner = new Scanner( new File("/proc/cpuinfo") );
+            String output = scanner.useDelimiter("\\A").next();
+            scanner.close(); //
+            String ver = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("/system/bin/uname -a ").getInputStream())).readLine();
 
+            int count = 0;
+            int pos = output.indexOf("aes");
+            while (pos > -1) {
+                ++count;
+                pos = output.indexOf("aes", ++pos);
+            }
+            if(count > 0) {
+                threads.setText(String.valueOf(count));
+                text.setText("You have " + String.valueOf(count) +" avaliable threads...");
+                Log.e("test", String.valueOf(count) + " threads");
+
+            } else {
+                threads.setText("None");
+                text.setText("Your cpu doesnt have AES...");
+                Log.e("test", "cpu doesnt have aes");
+                button.setClickable(false);
+            }
+            if(!ver.contains("aarch64") && !ver.contains("armv8")){
+                if(ver.contains("armv7")&& count > 0){
+                    Log.e("test", "armv7l but realy armv8 ?");
+                    text.setText("We are working on getting your cpu working...");
+                    button.setClickable(false);
+                } else if (count > 0){
+                    text.setText("unknown cpu \nNum of AES: " + String.valueOf(count) + "/n" + ver );
+                    Log.e("test", "unknown cpu \nNum of AES: " + String.valueOf(count) + "/n" + ver );
+                    button.setClickable(false);
+                }
+            } else {
+                if(count == 0){
+                    text.setText("Wrong kernel version");
+                    Log.e("test","Wrong kernel version" );
+                    button.setClickable(false);
+                }
+            }
+
+        }catch (Exception e){
+            text.setText(e.toString());
+            Log.e("test",e.toString());
+        }
         text.setMovementMethod(new ScrollingMovementMethod());
 
 
@@ -85,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
 
             saveSettings(threads.getText().toString()  + '\n' + worker.getText().toString()  + '\n' + pool.getText().toString() + '\n' + pass.getText().toString() + '\n' + address.getText().toString(),this);
-
             CheckBox bench = (CheckBox)findViewById(R.id.bench);
             miner.mine(threads.getText().toString(),pass.getText().toString(),pool.getText().toString(),worker.getText().toString(),address.getText().toString(),bench.isChecked());
             handler.postDelayed(textView, 200);

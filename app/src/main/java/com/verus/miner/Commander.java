@@ -30,7 +30,6 @@ public class Commander {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                        output.capacity();
                         output.append(line).append(System.lineSeparator());
                     if (currentThread().isInterrupted()) return;
                 }
@@ -95,6 +94,7 @@ public class Commander {
         }
 
         public int start()throws IOException {
+            end();
             processBuilder.environment().putAll(environment);
             processBuilder.directory(new File(workingDirectory));
             // start the process
@@ -118,6 +118,7 @@ public class Commander {
             return ret;        }
         public void end(){
             if(process != null) process.destroy();
+            process = null;
         }
     }
 }
